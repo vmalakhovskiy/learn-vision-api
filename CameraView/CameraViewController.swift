@@ -180,21 +180,40 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 self.cameraView.setNeedsDisplay()
             }
         }
-        
         guard let landmarks = result.landmarks else {
             return
         }
-        
         if let leftEye = landmark(
             points: landmarks.leftEye?.normalizedPoints,
             to: result.boundingBox) {
             cameraView.leftEye = leftEye
+            visualizePoints(points: leftEye)
+            ///Open is around 13
+            print("Left Eye diff: \(leftEye[5].y - leftEye[1].y)")
         }
-        
         if let rightEye = landmark(
             points: landmarks.rightEye?.normalizedPoints,
             to: result.boundingBox) {
             cameraView.rightEye = rightEye
+            visualizePoints(points: rightEye)
+            print("Right Eye diff: \(rightEye[5].y - rightEye[1].y)")
+        }
+    }
+    
+    func visualizePoints(points: [CGPoint]) {
+        if let subLayers = view.layer.sublayers {
+            for x in subLayers {
+                if(x is CAShapeLayer) {
+                    x.removeFromSuperlayer()
+                }
+            }
+        }
+        for x in points {
+            let path = UIBezierPath(arcCenter: x, radius: 5, startAngle: 0, endAngle: 1, clockwise: false)
+            let shapeLayer = CAShapeLayer()
+            shapeLayer.path = path.cgPath
+            shapeLayer.fillColor = UIColor.systemOrange.cgColor
+            view.layer.addSublayer(shapeLayer)
         }
     }
     
