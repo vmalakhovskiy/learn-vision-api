@@ -33,7 +33,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="logMoodTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fRX-1L-4Dy"/>
+                                    <action selector="logMoodTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ga7-9L-AK9"/>
                                 </connections>
                             </button>
                         </subviews>

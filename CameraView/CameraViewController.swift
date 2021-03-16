@@ -142,6 +142,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return exifOrientationForDeviceOrientation(UIDevice.current.orientation)
     }
     
+    // MARK: - Actions
+    
+    @IBAction func logMoodTapped(_ sender: Any) {
+        //
+    }
+    
 }
 
 
