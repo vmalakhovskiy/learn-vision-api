@@ -50,6 +50,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(cameraView)
+        view.sendSubviewToBack(cameraView)
         cameraView.frame = view.bounds
         cameraView.autoresizingMask = [.flexibleRightMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
     }
