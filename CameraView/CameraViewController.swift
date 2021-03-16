@@ -2,6 +2,7 @@
 
 import UIKit
 import AVFoundation
+import Vision
 
 enum AppError: Error {
     case captureSessionSetup(reason: String)
@@ -45,7 +46,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
     private var firstFrame = true
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,8 +110,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
-        // Perform Vision request here
+        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer)
+        let request = VNDetectFaceLandmarksRequest { (request, error) in
+            if request.results?.isEmpty == false, let observations = request.results as? [VNFaceObservation], let first = observations.first {
+                print(first.landmarks?.allPoints)
+            }
+        }
         
+        try? handler.perform([request])
     }
     
     func exifOrientationForDeviceOrientation(_ deviceOrientation: UIDeviceOrientation) -> CGImagePropertyOrientation {
