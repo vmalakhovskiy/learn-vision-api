@@ -195,16 +195,22 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             points: landmarks.leftEye?.normalizedPoints,
             to: result.boundingBox) {
             cameraView.leftEye = leftEye
-            visualizePoints(points: leftEye)
+            //visualizePoints(points: leftEye)
             ///Open is around 13
             print("Left Eye diff: \(leftEye[5].y - leftEye[1].y)")
+            if(timer.isValid == true && (leftEye[5].y - leftEye[1].y) <= 5) {
+                stopTimer()
+            }
         }
         if let rightEye = landmark(
             points: landmarks.rightEye?.normalizedPoints,
             to: result.boundingBox) {
             cameraView.rightEye = rightEye
-            visualizePoints(points: rightEye)
+            //visualizePoints(points: rightEye)
             print("Right Eye diff: \(rightEye[5].y - rightEye[1].y)")
+            if(timer.isValid == true && (rightEye[5].y - rightEye[1].y) <= 5) {
+                stopTimer()
+            }
         }
     }
     
@@ -223,9 +229,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             shapeLayer.fillColor = UIColor.systemOrange.cgColor
             view.layer.addSublayer(shapeLayer)
         }
-        
-        
-        
     }
     
     func landmark(point: CGPoint, to rect: CGRect) -> CGPoint {
