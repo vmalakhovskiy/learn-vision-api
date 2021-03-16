@@ -114,7 +114,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer)
         let request = VNDetectFaceLandmarksRequest { (request, error) in
             if request.results?.isEmpty == false, let observations = request.results as? [VNFaceObservation], let first = observations.first {
-                print(first.landmarks?.allPoints)
+                if let allPoints = first.landmarks?.allPoints {
+                    print(allPoints)
+                }
             }
         }
         
