@@ -42,7 +42,7 @@ enum AppError: Error {
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private var cameraView: CameraPreview = CameraPreview()
-
+    private var faceView: FaceView = FaceView()
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
@@ -73,6 +73,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         cameraView.frame = view.bounds
         cameraView.autoresizingMask = [.flexibleRightMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
         cameraView.delegate = self
+        
+        view.addSubview(faceView)
+        view.sendSubviewToBack(cameraView)
+        faceView.frame = view.bounds
+        faceView.autoresizingMask = [.flexibleRightMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
+        faceView.backgroundColor = .clear
+        
+        view.bringSubviewToFront(startButton)
     }
     
     func startTimer() {
@@ -156,7 +164,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer)
+        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .downMirrored)
         let detectFaceRequest = VNDetectFaceLandmarksRequest(completionHandler: detectedFace)
         
         do {
@@ -173,7 +181,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let result = results.first
         else {
             
-            cameraView.clear()
+            DispatchQueue.main.async {
+                self.faceView.clear()
+                self.cameraView.clear()
+            }
             return
         }
         
@@ -186,6 +197,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         defer {
             DispatchQueue.main.async {
                 self.cameraView.setNeedsDisplay()
+                self.faceView.setNeedsDisplay()
             }
         }
         guard let landmarks = result.landmarks else {
@@ -195,6 +207,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             points: landmarks.leftEye?.normalizedPoints,
             to: result.boundingBox) {
             cameraView.leftEye = leftEye
+            faceView.leftEye = leftEye
             //visualizePoints(points: leftEye)
             ///Open is around 13
             print("Left Eye diff: \(leftEye[5].y - leftEye[1].y)")
@@ -206,6 +219,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             points: landmarks.rightEye?.normalizedPoints,
             to: result.boundingBox) {
             cameraView.rightEye = rightEye
+            faceView.rightEye = rightEye
             //visualizePoints(points: rightEye)
             print("Right Eye diff: \(rightEye[5].y - rightEye[1].y)")
             if(timer.isValid == true && (rightEye[5].y - rightEye[1].y) <= 5) {
@@ -291,4 +305,47 @@ extension CameraViewController: CameraPreviewDelegate {
     func eyesClosed() {
         self.resetTimer()
     }
+}
+
+class FaceView: UIView {
+  var leftEye: [CGPoint] = []
+  var rightEye: [CGPoint] = []
+  
+  func clear() {
+    leftEye = []
+    rightEye = []
+    
+    DispatchQueue.main.async {
+      self.setNeedsDisplay()
+    }
+  }
+  
+  override func draw(_ rect: CGRect) {
+    guard let context = UIGraphicsGetCurrentContext() else {
+      return
+    }
+
+    context.saveGState()
+
+    defer {
+      context.restoreGState()
+    }
+
+    UIColor.red.setStroke()
+    context.strokePath()
+    UIColor.white.setStroke()
+
+    if !leftEye.isEmpty {
+      context.addLines(between: leftEye)
+      context.closePath()
+      context.strokePath()
+    }
+
+    if !rightEye.isEmpty {
+      context.addLines(between: rightEye)
+      context.closePath()
+      context.strokePath()
+    }
+
+  }
 }
