@@ -42,6 +42,7 @@ enum AppError: Error {
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private var cameraView: CameraPreview = CameraPreview()
+
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
@@ -71,6 +72,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         view.sendSubviewToBack(cameraView)
         cameraView.frame = view.bounds
         cameraView.autoresizingMask = [.flexibleRightMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
+        cameraView.delegate = self
     }
     
     func startTimer() {
@@ -86,6 +88,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             timePassedLabel.text = "Score: \(String(Int(timeElapsed.rounded())))"
             startButton.isHidden = false
             timer.invalidate()
+        }
+    }
+    
+    func resetTimer() {
+        if(timer.isValid == true) {
+            timeElapsed = 0
         }
     }
     
@@ -196,6 +204,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             to: result.boundingBox) {
             cameraView.rightEye = rightEye
         }
+        
+        
+        
     }
     
     func landmark(point: CGPoint, to rect: CGRect) -> CGPoint {
@@ -251,4 +262,11 @@ extension CGPoint {
 
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x + right.x, y: left.y + right.y)
+}
+
+extension CameraViewController: CameraPreviewDelegate {
+    
+    func eyesClosed() {
+        self.resetTimer()
+    }
 }
