@@ -3,7 +3,14 @@
 import UIKit
 import AVFoundation
 
+public protocol CameraPreviewDelegate {
+    func eyesClosed()
+}
+
 class CameraPreview: UIView {
+    
+    var delegate: CameraPreviewDelegate?
+    
     var leftEye: [CGPoint] = []
     var rightEye: [CGPoint] = []
     
@@ -54,5 +61,13 @@ class CameraPreview: UIView {
         context.closePath()
         context.strokePath()
       }
+        
+        if leftEye.isEmpty && rightEye.isEmpty {
+            userBlinked()
+        }
+    }
+    
+    func userBlinked() {
+        self.delegate?.eyesClosed()
     }
 }
