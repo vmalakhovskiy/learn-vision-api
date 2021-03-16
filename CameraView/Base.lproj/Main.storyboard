@@ -3,13 +3,12 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Look at camera-->
+        <!--Stare!-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CameraViewController" customModule="CameraView" customModuleProvider="target" sceneMemberID="viewController">
@@ -24,7 +23,7 @@
                                     <constraint firstAttribute="height" constant="55" id="PHm-Ym-Ouu"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                <state key="normal" title="Log mood">
+                                <state key="normal" title="Start">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -34,79 +33,35 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="logMoodTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ga7-9L-AK9"/>
+                                    <action selector="startTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DLi-4r-igM"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggB-ez-o42">
+                                <rect key="frame" x="16" y="200" width="382" height="95.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="80"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ggB-ez-o42" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="9xL-Oz-UDu"/>
                             <constraint firstItem="vNz-NG-CuA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="EoO-ww-Kwl"/>
+                            <constraint firstItem="ggB-ez-o42" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RfK-ua-kO1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vNz-NG-CuA" secondAttribute="trailing" constant="16" id="afv-Qp-1xh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vNz-NG-CuA" secondAttribute="bottom" constant="20" id="rb2-dk-Ms6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ggB-ez-o42" secondAttribute="trailing" constant="16" id="y3F-NM-xDk"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Look at camera" id="Aa9-t5-mmQ">
-                        <barButtonItem key="rightBarButtonItem" id="AXJ-AX-aKJ">
-                            <imageReference key="image" image="list.bullet" catalog="system" symbolScale="large"/>
-                            <color key="tintColor" systemColor="labelColor"/>
-                            <connections>
-                                <segue destination="Xok-5P-Hav" kind="show" id="ust-R5-P9x"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Stare!" id="Aa9-t5-mmQ"/>
+                    <connections>
+                        <outlet property="timePassedLabel" destination="ggB-ez-o42" id="Gkp-DJ-j53"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="20" y="90"/>
-        </scene>
-        <!--Moods-->
-        <scene sceneID="5pV-sh-d81">
-            <objects>
-                <tableViewController id="Xok-5P-Hav" customClass="MoodsTableViewController" customModule="CameraView" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cZW-2a-QF5">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="moodCell" textLabel="WWr-ni-1xm" detailTextLabel="ZeG-Fx-fte" style="IBUITableViewCellStyleSubtitle" id="TDa-Cp-feH" customClass="MoodTableViewCell" customModule="CameraView" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="55.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TDa-Cp-feH" id="T8v-sU-5Fd">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="55.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WWr-ni-1xm">
-                                            <rect key="frame" x="20" y="10" width="33" height="20.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZeG-Fx-fte">
-                                            <rect key="frame" x="20" y="31.5" width="44" height="14.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="subtitle" destination="ZeG-Fx-fte" id="qa8-eP-36l"/>
-                                    <outlet property="title" destination="WWr-ni-1xm" id="r7p-r3-chU"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Xok-5P-Hav" id="1UW-aD-aRR"/>
-                            <outlet property="delegate" destination="Xok-5P-Hav" id="xeI-dq-KgH"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Moods" id="K6I-BS-eUf"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6pz-vJ-0wT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="699" y="90"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1HY-bA-I3A">
@@ -127,7 +82,6 @@
     </scenes>
     <color key="tintColor" systemColor="labelColor"/>
     <resources>
-        <image name="list.bullet" catalog="system" width="128" height="88"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

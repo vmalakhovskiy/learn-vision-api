@@ -47,6 +47,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var cameraFeedSession: AVCaptureSession?
     private var firstFrame = true
     
+    @IBOutlet weak var timePassedLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(cameraView)
@@ -146,7 +148,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     // MARK: - Actions
     
-    @IBAction func logMoodTapped(_ sender: Any) {
+    @IBAction func startTapped(_ sender: Any) {
         //
     }
     
