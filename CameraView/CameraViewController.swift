@@ -48,6 +48,22 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var firstFrame = true
     
     @IBOutlet weak var timePassedLabel: UILabel!
+    @IBOutlet weak var startButton: UIButton!
+    
+    ///Time elapsed in seconds
+    var timeElapsed: Double = 0 {
+        didSet {
+            ///Needs support for human readable minute, etc...?
+            timePassedLabel.text = String(Int(timeElapsed.rounded()))
+            if(timeElapsed.rounded() == 0) {
+                timePassedLabel.isHidden = true
+            }else {
+                timePassedLabel.isHidden = false
+            }
+        }
+    }
+    
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +71,26 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         view.sendSubviewToBack(cameraView)
         cameraView.frame = view.bounds
         cameraView.autoresizingMask = [.flexibleRightMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
+    }
+    
+    func startTimer() {
+        if(timer.isValid == false) {
+            startButton.isHidden = true
+            timeElapsed = 0
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.incrementTimer), userInfo: nil, repeats: true)
+        }
+    }
+    
+    func stopTimer() {
+        if(timer.isValid == true) {
+            timePassedLabel.text = "Score: \(String(Int(timeElapsed.rounded())))"
+            startButton.isHidden = false
+            timer.invalidate()
+        }
+    }
+    
+    @objc func incrementTimer() {
+        timeElapsed += 1
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -202,12 +238,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     // MARK: - Actions
     
     @IBAction func startTapped(_ sender: Any) {
-        //
+        startTimer()
     }
     
 }
-
-
 
 extension CGPoint {
     func absolutePoint(in rect: CGRect) -> CGPoint {

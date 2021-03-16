@@ -35,7 +35,7 @@
                                     <action selector="startTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DLi-4r-igM"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggB-ez-o42">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ggB-ez-o42">
                                 <rect key="frame" x="16" y="200" width="382" height="95.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="80"/>
                                 <nil key="textColor"/>
@@ -55,6 +55,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Stare!" id="Aa9-t5-mmQ"/>
                     <connections>
+                        <outlet property="startButton" destination="vNz-NG-CuA" id="QAi-9g-sAp"/>
                         <outlet property="timePassedLabel" destination="ggB-ez-o42" id="Gkp-DJ-j53"/>
                     </connections>
                 </viewController>
