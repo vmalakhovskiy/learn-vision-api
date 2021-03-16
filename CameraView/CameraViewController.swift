@@ -109,15 +109,70 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer)
-        let request = VNDetectFaceLandmarksRequest { (request, error) in
-            if request.results?.isEmpty == false, let observations = request.results as? [VNFaceObservation], let first = observations.first {
-                print(first.landmarks?.allPoints)
+        let detectFaceRequest = VNDetectFaceLandmarksRequest(completionHandler: detectedFace)
+        
+        do {
+            try handler.perform([detectFaceRequest])
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func detectedFace(request: VNRequest, error: Error?) {
+        
+        guard
+            let results = request.results as? [VNFaceObservation],
+            let result = results.first
+        else {
+            
+            cameraView.clear()
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.updateFaceView(for: result)
+        }
+    }
+    
+    func updateFaceView(for result: VNFaceObservation) {
+        defer {
+            DispatchQueue.main.async {
+                self.cameraView.setNeedsDisplay()
             }
         }
         
-        try? handler.perform([request])
+        guard let landmarks = result.landmarks else {
+            return
+        }
+        
+        if let leftEye = landmark(
+            points: landmarks.leftEye?.normalizedPoints,
+            to: result.boundingBox) {
+            cameraView.leftEye = leftEye
+        }
+        
+        if let rightEye = landmark(
+            points: landmarks.rightEye?.normalizedPoints,
+            to: result.boundingBox) {
+            cameraView.rightEye = rightEye
+        }
+    }
+    
+    func landmark(point: CGPoint, to rect: CGRect) -> CGPoint {
+        let absolute = point.absolutePoint(in: rect)
+        
+        let converted = cameraView.previewLayer.layerPointConverted(fromCaptureDevicePoint: absolute)
+        
+        return converted
+    }
+    
+    func landmark(points: [CGPoint]?, to rect: CGRect) -> [CGPoint]? {
+        guard let points = points else {
+            return nil
+        }
+        
+        return points.compactMap { landmark(point: $0, to: rect) }
     }
     
     func exifOrientationForDeviceOrientation(_ deviceOrientation: UIDeviceOrientation) -> CGImagePropertyOrientation {
@@ -144,3 +199,13 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 }
 
 
+
+extension CGPoint {
+    func absolutePoint(in rect: CGRect) -> CGPoint {
+        return CGPoint(x: x * rect.size.width, y: y * rect.size.height) + rect.origin
+    }
+}
+
+func + (left: CGPoint, right: CGPoint) -> CGPoint {
+  return CGPoint(x: left.x + right.x, y: left.y + right.y)
+}

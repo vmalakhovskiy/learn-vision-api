@@ -4,6 +4,18 @@ import UIKit
 import AVFoundation
 
 class CameraPreview: UIView {
+    var leftEye: [CGPoint] = []
+    var rightEye: [CGPoint] = []
+    
+    func clear() {
+      leftEye = []
+      rightEye = []
+      
+      DispatchQueue.main.async {
+        self.setNeedsDisplay()
+      }
+    }
+    
 
     var previewLayer: AVCaptureVideoPreviewLayer {
         return layer as! AVCaptureVideoPreviewLayer
@@ -17,4 +29,30 @@ class CameraPreview: UIView {
         return previewLayer.layerRectConverted(fromMetadataOutputRect: normalizedRect)
     }
     
+    override func draw(_ rect: CGRect) {
+      guard let context = UIGraphicsGetCurrentContext() else {
+        return
+      }
+
+      context.saveGState()
+      defer {
+        context.restoreGState()
+      }
+
+      UIColor.red.setStroke()
+      context.strokePath()
+      UIColor.white.setStroke()
+
+      if !leftEye.isEmpty {
+        context.addLines(between: leftEye)
+        context.closePath()
+        context.strokePath()
+      }
+
+      if !rightEye.isEmpty {
+        context.addLines(between: rightEye)
+        context.closePath()
+        context.strokePath()
+      }
+    }
 }
