@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E5CDD90F2600CAF100297E0B /* MoodsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CDD90D2600CAF000297E0B /* MoodsTableViewController.swift */; };
 		E7DDA35A25D10AD3004F60E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DDA35925D10AD3004F60E5 /* AppDelegate.swift */; };
 		E7DDA35C25D10AD3004F60E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DDA35B25D10AD3004F60E5 /* SceneDelegate.swift */; };
 		E7DDA36125D10AD3004F60E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7DDA35F25D10AD3004F60E5 /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E5CDD90D2600CAF000297E0B /* MoodsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoodsTableViewController.swift; sourceTree = "<group>"; };
 		E7DDA35625D10AD3004F60E5 /* CameraView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7DDA35925D10AD3004F60E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7DDA35B25D10AD3004F60E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				E7DDA36225D10AD3004F60E5 /* Assets.xcassets */,
 				E7DDA36425D10AD3004F60E5 /* LaunchScreen.storyboard */,
 				E7DDA36725D10AD3004F60E5 /* Info.plist */,
+				E5CDD90D2600CAF000297E0B /* MoodsTableViewController.swift */,
 			);
 			path = CameraView;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7DDA39725D10AF8004F60E5 /* CameraPreview.swift in Sources */,
+				E5CDD90F2600CAF100297E0B /* MoodsTableViewController.swift in Sources */,
 				E7DDA38E25D10AE4004F60E5 /* CameraViewController.swift in Sources */,
 				E7DDA35A25D10AD3004F60E5 /* AppDelegate.swift in Sources */,
 				E7DDA35C25D10AD3004F60E5 /* SceneDelegate.swift in Sources */,
@@ -441,7 +445,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 25946FSZU5;
+				DEVELOPMENT_TEAM = CG2D7EX75K;
 				INFOPLIST_FILE = CameraView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

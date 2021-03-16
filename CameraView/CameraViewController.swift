@@ -47,9 +47,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var cameraFeedSession: AVCaptureSession?
     private var firstFrame = true
     
+    @IBOutlet weak var timePassedLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(cameraView)
+        view.sendSubviewToBack(cameraView)
         cameraView.frame = view.bounds
         cameraView.autoresizingMask = [.flexibleRightMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleTopMargin]
     }
@@ -194,6 +197,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func exifOrientationForCurrentDeviceOrientation() -> CGImagePropertyOrientation {
         return exifOrientationForDeviceOrientation(UIDevice.current.orientation)
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func startTapped(_ sender: Any) {
+        //
     }
     
 }
